@@ -48,6 +48,9 @@ print(inference)
 ```
 
 {<ConstOutput: names[Func/StatefulPartitionedCall/output/_11:0, Identity:0, StatefulPartitionedCall/Identity:0, StatefulPartitionedCall/sequential/dense_2/Sigmoid:0] shape{1,1} type: f32>: array([[0.]], dtype=float32)}
+
 <class 'dict'>
+
 dict_values([array([[0.]], dtype=float32)])
+
 [[0.]]
