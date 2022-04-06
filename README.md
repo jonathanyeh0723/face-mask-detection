@@ -191,6 +191,6 @@ img = np.expand_dims(img, axis=0)
 print(type(img), img.shape)
 ```
 
-<class 'PIL.Image.Image'> (150, 150)
-<class 'numpy.ndarray'> (150, 150, 3)
+<class 'PIL.Image.Image'> (150, 150)<br>
+<class 'numpy.ndarray'> (150, 150, 3)<br>
 <class 'numpy.ndarray'> (1, 150, 150, 3)
