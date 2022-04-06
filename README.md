@@ -159,3 +159,40 @@ history.history['accuracy'][:10]
  0.8583333492279053,
  0.8933333158493042,
  0.8866666555404663]
+
+```
+import matplotlib.pyplot as plt
+
+#help(plt.plot)
+
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.xlabel('epochs')
+plt.ylabel('accuracy')
+plt.title('train and validation accuracy')
+plt.legend(['train', 'valid'])
+
+plt.show()
+```
+
+```
+from tensorflow.keras.preprocessing import image as I
+import numpy as np
+
+img = I.load_img("face_mask_test/mask_2.jpg", target_size=(150, 150))
+print(type(img), img.size)
+
+plt.imshow(img)
+
+img = I.img_to_array(img)
+print(type(img), img.shape)
+
+img = np.expand_dims(img, axis=0)
+print(type(img), img.shape)
+```
+
+<class 'PIL.Image.Image'> (150, 150)
+
+<class 'numpy.ndarray'> (150, 150, 3)
+
+<class 'numpy.ndarray'> (1, 150, 150, 3)
