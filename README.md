@@ -192,7 +192,5 @@ print(type(img), img.shape)
 ```
 
 <class 'PIL.Image.Image'> (150, 150)
-
 <class 'numpy.ndarray'> (150, 150, 3)
-
 <class 'numpy.ndarray'> (1, 150, 150, 3)
