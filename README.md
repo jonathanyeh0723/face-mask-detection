@@ -126,3 +126,9 @@ Total params: 2,490,785
 Trainable params: 2,490,785
 Non-trainable params: 0
 ```
+
+```
+type(history)
+```
+
+tensorflow.python.keras.callbacks.History
