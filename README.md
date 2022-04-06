@@ -132,3 +132,15 @@ type(history)
 ```
 
 tensorflow.python.keras.callbacks.History
+
+```
+type(history.history)
+```
+
+dict
+
+```
+history.history.keys()
+```
+
+dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])
