@@ -54,3 +54,75 @@ print(inference)
 dict_values([array([[0.]], dtype=float32)])
 
 [[0.]]
+
+### My Logs
+
+```
+model = tf.keras.models.Sequential([
+        tf.keras.layers.Conv2D(32, (3, 3), padding='SAME', activation='relu', input_shape=(150, 150, 3)),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Dropout(0.5),
+    
+        tf.keras.layers.Conv2D(64, (3, 3), padding='SAME', activation='relu'),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Dropout(0.5),
+        
+        tf.keras.layers.Conv2D(128, (3, 3), padding='SAME', activation='relu'),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Dropout(0.5),
+    
+        tf.keras.layers.Flatten(),
+    
+        tf.keras.layers.Dense(256, activation='relu'),
+        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.summary()
+
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_5 (Conv2D)            (None, 150, 150, 16)      448       
+_________________________________________________________________
+max_pooling2d_5 (MaxPooling2 (None, 75, 75, 16)        0         
+_________________________________________________________________
+dropout_6 (Dropout)          (None, 75, 75, 16)        0         
+_________________________________________________________________
+conv2d_6 (Conv2D)            (None, 75, 75, 32)        4640      
+_________________________________________________________________
+max_pooling2d_6 (MaxPooling2 (None, 37, 37, 32)        0         
+_________________________________________________________________
+dropout_7 (Dropout)          (None, 37, 37, 32)        0         
+_________________________________________________________________
+conv2d_7 (Conv2D)            (None, 37, 37, 64)        18496     
+_________________________________________________________________
+max_pooling2d_7 (MaxPooling2 (None, 18, 18, 64)        0         
+_________________________________________________________________
+dropout_8 (Dropout)          (None, 18, 18, 64)        0         
+_________________________________________________________________
+conv2d_8 (Conv2D)            (None, 18, 18, 128)       73856     
+_________________________________________________________________
+max_pooling2d_8 (MaxPooling2 (None, 9, 9, 128)         0         
+_________________________________________________________________
+dropout_9 (Dropout)          (None, 9, 9, 128)         0         
+_________________________________________________________________
+conv2d_9 (Conv2D)            (None, 9, 9, 256)         295168    
+_________________________________________________________________
+max_pooling2d_9 (MaxPooling2 (None, 4, 4, 256)         0         
+_________________________________________________________________
+dropout_10 (Dropout)         (None, 4, 4, 256)         0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 4096)              0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               2097664   
+_________________________________________________________________
+dropout_11 (Dropout)         (None, 512)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 513       
+=================================================================
+Total params: 2,490,785
+Trainable params: 2,490,785
+Non-trainable params: 0
+```
