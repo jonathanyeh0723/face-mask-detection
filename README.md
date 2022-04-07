@@ -58,6 +58,22 @@ train_dir_mask_names[:5]
 
 ['0003.jpg', '0006.jpg', '0018.jpg', '0019.jpg', '0022.jpg']
 
+```
+train_dir_nomask = os.path.join(train_dir, "Non Mask")
+
+train_dir_nomask
+```
+
+'face_mask/dataset\\Train\\Non Mask'
+
+```
+train_dir_nomask_names = os.listdir(train_dir_nomask)
+
+train_dir_nomask_names[:5]
+```
+
+['0.jpg', '1.jpg', '10.jpg', '100.jpg', '101.jpg']
+
 ![my_plot_images](./resources/face_mask_nomask.png)
 
 ### My Process
