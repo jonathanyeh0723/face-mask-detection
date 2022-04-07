@@ -36,6 +36,28 @@ test_dir
 
 'face_mask/dataset\\Test'
 
+```
+os.listdir(train_dir)
+```
+
+['Mask', 'Non Mask']
+
+```
+train_dir_mask = os.path.join(train_dir, "Mask")
+
+train_dir_mask
+```
+
+'face_mask/dataset\\Train\\Mask'
+
+```
+train_dir_mask_names = os.listdir(train_dir_mask)
+
+train_dir_mask_names[:5]
+```
+
+['0003.jpg', '0006.jpg', '0018.jpg', '0019.jpg', '0022.jpg']
+
 ![my_plot_images](./resources/face_mask_nomask.png)
 
 ### My Process
