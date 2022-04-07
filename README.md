@@ -20,6 +20,8 @@ train_dir
 
 'face_mask/dataset\\Train'
 
+![my_plot_images]("./resources/face_mask_nomask.png")
+
 ### My Process
 
 ```
