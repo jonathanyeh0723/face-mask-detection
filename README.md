@@ -20,6 +20,22 @@ train_dir
 
 'face_mask/dataset\\Train'
 
+```
+valid_dir = os.path.join(base_dir, "Validation")
+
+valid_dir
+```
+
+'face_mask/dataset\\Validation'
+
+```
+test_dir = os.path.join(base_dir, "Test")
+
+test_dir
+```
+
+'face_mask/dataset\\Test'
+
 ![my_plot_images](./resources/face_mask_nomask.png)
 
 ### My Process
