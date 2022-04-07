@@ -1,5 +1,25 @@
 # face-mask-detection
 
+### My Plot
+
+```
+import os
+
+base_dir = "face_mask/dataset"
+
+os.listdir(base_dir)
+```
+
+['Test', 'Train', 'Validation']
+
+```
+train_dir = os.path.join(base_dir, "Train")
+
+train_dir
+```
+
+'face_mask/dataset\\Train'
+
 ### My Process
 
 ```
