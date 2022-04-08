@@ -105,6 +105,8 @@ for i, img_path in enumerate(my_imgs_list):
     plt.imshow(img)
 ```
 
+Current image index...24
+
 ![my_plot_images](./resources/face_mask_nomask.png)
 
 ### My Process
