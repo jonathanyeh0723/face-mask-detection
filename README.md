@@ -75,8 +75,9 @@ train_dir_nomask_names[:5]
 ['0.jpg', '1.jpg', '10.jpg', '100.jpg', '101.jpg']
 
 ```
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+# I want to make a base...
+# It can be fulled with 4x4 images...
+# I should set number of nows and columns...
 
 nrows = 4
 ncols = 4
@@ -86,25 +87,22 @@ img_index = 0
 
 ```
 fig = plt.gcf()
+fig.set_size_inches(nrows*4, ncols*3)
 
-fig.set_size_inches(ncols * 4, nrows * 3)
+print("Current image index...{}".format(img_index))
 
 img_index += 8
-print("Current image index is {}".format(img_index))
 
-train_imgs_mask = [os.path.join(train_dir_mask, fname) for fname in train_dir_mask_names[img_index-8 :img_index]]
-train_imgs_nomask = [os.path.join(train_dir_nomask, fname) for fname in train_dir_nomask_names[img_index-8 :img_index]]
+train_mask_imgs = [os.path.join(train_dir_mask, fname) for fname in train_dir_mask_imgs[img_index-8: img_index]]
+train_nomask_imgs = [os.path.join(train_dir_nomask, fname) for fname in train_dir_nomask_imgs[img_index-8: img_index]]
+my_imgs_list = train_mask_imgs + train_nomask_imgs
 
-my_imgs = train_imgs_mask + train_imgs_nomask
-
-for i, img_path in enumerate(my_imgs):
-    
+for i, img_path in enumerate(my_imgs_list):
     ax = plt.subplot(nrows, ncols, i+1)
     ax.axis('Off')
     
     img = mpimg.imread(img_path)
-    
-    plt.imshow(img) # ----------> not plt.show()
+    plt.imshow(img)
 ```
 
 ![my_plot_images](./resources/face_mask_nomask.png)
