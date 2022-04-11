@@ -303,3 +303,152 @@ print(type(img), img.shape)
 <class 'PIL.Image.Image'> (150, 150)<br>
 <class 'numpy.ndarray'> (150, 150, 3)<br>
 <class 'numpy.ndarray'> (1, 150, 150, 3)
+
+### My Model
+
+```
+from tensorflow.keras.layers import Dropout
+
+class Block(tf.keras.models.Model):
+    
+    def __init__(self, filters, kernel_size, repetitions, pool_size = 2, strides = 2):
+        
+        super(Block, self).__init__()
+        
+        self.filters = filters
+        self.kernel_size = kernel_size
+        self.repetitions = repetitions
+        
+        for i in range(0, self.repetitions):
+            vars(self)[f'conv2D_{i}'] = tf.keras.layers.Conv2D(self.filters, self.kernel_size, padding = 'same', activation = 'relu')
+        
+        self.max_pool = tf.keras.layers.MaxPool2D(pool_size = pool_size, strides = strides)
+        
+    def call(self, inputs):
+        
+        conv2D_0 = inputs
+        x = conv2D_0
+        
+        for i in range(1, self.repetitions):
+            conv2D_agg = vars(self)[f'conv2D_{i}']
+            x = conv2D_agg(x)
+            
+        x = self.max_pool(x)
+        
+        return x
+        
+class MyVGG(tf.keras.models.Model):
+    
+    def __init__(self, num_classes):
+        
+        super(MyVGG, self).__init__()
+        
+        self.block_a = Block(64, 3, 2)
+        self.block_b = Block(128, 3, 2)
+        self.block_c = Block(256, 3, 3)
+        self.block_d = Block(512, 3, 3)
+        self.block_e = Block(512, 3, 3)
+        
+        self.dropout = Dropout(0.1)
+        
+        self.flatten = tf.keras.layers.Flatten()
+        self.fc = tf.keras.layers.Dense(256, activation = 'relu')
+        self.classifier = tf.keras.layers.Dense(num_classes, activation = 'sigmoid')
+        
+    def call(self, inputs):
+        
+        x = inputs
+        
+        x = self.block_a(x)
+        #x = self.dropout(x)
+        
+        x = self.block_b(x)
+        #x = self.dropout(x)
+        
+        x = self.block_c(x)
+        #x = self.dropout(x)
+        
+        x = self.block_d(x)
+        #x = self.dropout(x)
+        
+        x = self.block_e(x)
+        #x = self.dropout(x)
+        
+        x = self.flatten(x)
+        x = self.fc(x)
+        #x = self.dropout(x)
+        x = self.classifier(x)
+        
+        return x
+        
+model = MyVGG(1)
+
+from tensorflow.keras.optimizers import Adam
+
+model.compile(optimizer=Adam(lr=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+
+history = model.fit(train_generator, epochs=30, validation_data=valid_generator)
+```
+
+```
+Epoch 1/30
+19/19 [==============================] - 34s 2s/step - loss: 0.6921 - accuracy: 0.5183 - val_loss: 0.6844 - val_accuracy: 0.5392
+Epoch 2/30
+19/19 [==============================] - 35s 2s/step - loss: 0.6696 - accuracy: 0.5533 - val_loss: 0.6756 - val_accuracy: 0.5294
+Epoch 3/30
+19/19 [==============================] - 36s 2s/step - loss: 0.6508 - accuracy: 0.6233 - val_loss: 0.6581 - val_accuracy: 0.6699
+Epoch 4/30
+19/19 [==============================] - 36s 2s/step - loss: 0.6178 - accuracy: 0.7267 - val_loss: 0.6596 - val_accuracy: 0.5621
+Epoch 5/30
+19/19 [==============================] - 36s 2s/step - loss: 0.5872 - accuracy: 0.7400 - val_loss: 0.6262 - val_accuracy: 0.6797
+Epoch 6/30
+19/19 [==============================] - 36s 2s/step - loss: 0.5633 - accuracy: 0.7633 - val_loss: 0.6090 - val_accuracy: 0.6830
+Epoch 7/30
+19/19 [==============================] - 36s 2s/step - loss: 0.5360 - accuracy: 0.7550 - val_loss: 0.6012 - val_accuracy: 0.6634
+Epoch 8/30
+19/19 [==============================] - 36s 2s/step - loss: 0.5076 - accuracy: 0.7700 - val_loss: 0.5727 - val_accuracy: 0.7026
+Epoch 9/30
+19/19 [==============================] - 37s 2s/step - loss: 0.4884 - accuracy: 0.8000 - val_loss: 0.5562 - val_accuracy: 0.7157
+Epoch 10/30
+19/19 [==============================] - 36s 2s/step - loss: 0.4666 - accuracy: 0.8150 - val_loss: 0.5548 - val_accuracy: 0.7157
+Epoch 11/30
+19/19 [==============================] - 37s 2s/step - loss: 0.4439 - accuracy: 0.8283 - val_loss: 0.5155 - val_accuracy: 0.7451
+Epoch 12/30
+19/19 [==============================] - 36s 2s/step - loss: 0.4396 - accuracy: 0.8067 - val_loss: 0.4982 - val_accuracy: 0.7549
+Epoch 13/30
+19/19 [==============================] - 36s 2s/step - loss: 0.4195 - accuracy: 0.8383 - val_loss: 0.5349 - val_accuracy: 0.7026
+Epoch 14/30
+19/19 [==============================] - 37s 2s/step - loss: 0.4245 - accuracy: 0.8150 - val_loss: 0.4648 - val_accuracy: 0.7614
+Epoch 15/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3797 - accuracy: 0.8583 - val_loss: 0.4525 - val_accuracy: 0.7810
+Epoch 16/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3711 - accuracy: 0.8683 - val_loss: 0.4449 - val_accuracy: 0.7810
+Epoch 17/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3671 - accuracy: 0.8733 - val_loss: 0.4865 - val_accuracy: 0.7353
+Epoch 18/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3682 - accuracy: 0.8467 - val_loss: 0.4188 - val_accuracy: 0.7974
+Epoch 19/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3580 - accuracy: 0.8667 - val_loss: 0.4094 - val_accuracy: 0.8072
+Epoch 20/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3466 - accuracy: 0.8650 - val_loss: 0.3970 - val_accuracy: 0.8170
+Epoch 21/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3598 - accuracy: 0.8700 - val_loss: 0.3911 - val_accuracy: 0.8235
+Epoch 22/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3288 - accuracy: 0.8700 - val_loss: 0.3836 - val_accuracy: 0.8203
+Epoch 23/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3285 - accuracy: 0.8700 - val_loss: 0.3786 - val_accuracy: 0.8235
+Epoch 24/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3295 - accuracy: 0.8700 - val_loss: 0.3715 - val_accuracy: 0.8301
+Epoch 25/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3145 - accuracy: 0.8767 - val_loss: 0.3632 - val_accuracy: 0.8399
+Epoch 26/30
+19/19 [==============================] - 36s 2s/step - loss: 0.3048 - accuracy: 0.8933 - val_loss: 0.3764 - val_accuracy: 0.8529
+Epoch 27/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3009 - accuracy: 0.8917 - val_loss: 0.3671 - val_accuracy: 0.8627
+Epoch 28/30
+19/19 [==============================] - 36s 2s/step - loss: 0.2991 - accuracy: 0.8867 - val_loss: 0.3570 - val_accuracy: 0.8464
+Epoch 29/30
+19/19 [==============================] - 36s 2s/step - loss: 0.2985 - accuracy: 0.8700 - val_loss: 0.3905 - val_accuracy: 0.8039
+Epoch 30/30
+19/19 [==============================] - 37s 2s/step - loss: 0.3131 - accuracy: 0.8867 - val_loss: 0.3500 - val_accuracy: 0.8562
+```
