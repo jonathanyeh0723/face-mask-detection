@@ -452,3 +452,31 @@ Epoch 29/30
 Epoch 30/30
 19/19 [==============================] - 37s 2s/step - loss: 0.3131 - accuracy: 0.8867 - val_loss: 0.3500 - val_accuracy: 0.8562
 ```
+
+### My Reference
+
+The VGG Network has blocks of layers, where each block has a varied number of layers.
+- In order to create blocks of layers that have a customizable number of conv2D layers, you'll define a class `Block`, which can generate a customizable block of layers 
+
+
+#### `__init__`
+In the constructor `__init__`, store the conv2D parameters and also define the number of conv2D layers using the parameters passed into `__init__`.
+- Store the filters, kernel_size, and repetitions as class variables so that they can be used later in the `call` function.
+- Using a for loop, define a number of Conv2D [Conv2D](https://keras.io/api/layers/convolution_layers/convolution2d/) layers, based on the number of `repetitions` desired for this block.
+    - You can define each conv2D layer using `vars` and string formatting to create conv2D_0, conv2D_1, conv2D_3 etc.
+    - Set these four parameters of Conv2D:
+        - filters
+        - kernel_size
+        - activation: set this to 'relu'
+        - padding: set this to 'same' (default pading is 'valid').
+        
+- Define the [MaxPool2D](https://keras.io/api/layers/pooling_layers/max_pooling2d/) layer that follows these Conv2D layers. 
+    - Set the following parameters for MaxPool2D:
+        - pool_size: this will be a tuple with two values.
+        - strides: this will also be a tuple with two values.
+
+#### `call`
+In `call`, you will connect the layers together.
+- The 0-th conv2D layer, `conv2D_0`, immediately follows the `inputs`.
+- For conv2D layers 1,2 and onward, you can use a for loop to connect conv2D_1 to conv2D_0, and connect conv2D_2 to conv2D_1, and so on.
+- After connecting all of the conv2D_i layers, add connect the max_pool layer and return the max_pool layer.
