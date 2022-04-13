@@ -480,3 +480,34 @@ In `call`, you will connect the layers together.
 - The 0-th conv2D layer, `conv2D_0`, immediately follows the `inputs`.
 - For conv2D layers 1,2 and onward, you can use a for loop to connect conv2D_1 to conv2D_0, and connect conv2D_2 to conv2D_1, and so on.
 - After connecting all of the conv2D_i layers, add connect the max_pool layer and return the max_pool layer.
+
+```
+
+class Block(tf.keras.models.Model):
+    
+    def __init__(self, filters, kernel_size, repetitions, pool_size=2, strides=2):
+        super(Block, self).__init__()
+        self.filters = filters
+        self.kernel_size = kernel_size
+        self.repetitions = repetitions
+        
+        for i in range(0, self.repetitions):
+            vars(self)[f'conv2D_{i}'] = tf.keras.layers.Conv2D(filters=self.filters,
+                                                               kernel_size=self.kernel_size,
+                                                               padding='same',
+                                                               activation='relu')
+        
+        self.max_pool = tf.keras.layers.MaxPool2D(pool_size=pool_size, strides=strides)
+        
+    def call(self, inputs):
+        
+        x = inputs
+        
+        for i in range(1, self.repetitions):
+            conv2D_agg = vars(self)[f'conv2D_{i}']
+            x = conv2D_agg(x)
+            
+        x = self.max_pool(x)
+        
+        return x
+ ```
