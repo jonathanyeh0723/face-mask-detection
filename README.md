@@ -155,8 +155,8 @@ for i, img_path in enumerate(my_imgs):
     plt.imshow(img)
 ```
 
-There are 300 mask images and 300 non mask images in the training directory.
-This is the 8 round execution
+There are 300 mask images and 300 non mask images in the training directory.<br>
+This is the 8 round execution<br>
 Current image plot index starts from: 56 / 300
 
 ### My Process
