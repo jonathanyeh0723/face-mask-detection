@@ -159,6 +159,8 @@ There are 300 mask images and 300 non mask images in the training directory.<br>
 This is the 8 round execution<br>
 Current image plot index starts from: 56 / 300
 
+![my_plot_images](./resources/plot_tmp.png)
+
 ### My Process
 
 ```
