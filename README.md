@@ -109,6 +109,56 @@ Current image index...24
 
 ![my_plot_images](./resources/face_mask_nomask.png)
 
+```
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+
+img_index = 0
+counter = 0
+
+nrows = 4
+ncols = 4
+```
+
+```
+fig = plt.figure(figsize=(nrows*4, ncols*3))
+
+counter += 1
+
+print("There are {} mask images and {} non mask images in the training directory.".format
+      (len(train_dir_mask_imgs), len(train_dir_nomask_imgs)))
+print("This is the {} round execution".format(counter))
+print("Current image plot index starts from: {} / {}".format(img_index, len(train_dir_mask_imgs)))
+
+img_index += 8
+
+
+train_mask_imgs = ([os.path.join(train_dir_mask, fname)
+                    for fname in train_dir_mask_imgs])[img_index-8: img_index]
+
+train_nomask_imgs = ([os.path.join(train_dir_nomask, fname)
+                      for fname in train_dir_nomask_imgs])[img_index-8: img_index]
+
+my_imgs = train_mask_imgs + train_nomask_imgs
+
+for i, img_path in enumerate(my_imgs):
+    
+    ax = plt.subplot(nrows, ncols, i+1)
+    ax.axis('Off')
+    
+    img = mpimg.imread(img_path)
+    h = img.shape[0]
+    w = img.shape[1]
+
+    ax.set_title(img_path.split("\\")[-1] + " ({} x {})".format(w, h))
+    plt.imshow(img)
+```
+
+There are 300 mask images and 300 non mask images in the training directory.
+This is the 8 round execution
+Current image plot index starts from: 56 / 300
+
 ### My Process
 
 ```
