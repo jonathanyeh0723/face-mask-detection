@@ -189,7 +189,7 @@ for i in range(3):
 plt.show()
 ```
 
-![my_plot_images](./resources/img_aug_show_rotation.png)
+![hey](./resources/img_aug_show_rotation.png)
 
 ### My Process
 
