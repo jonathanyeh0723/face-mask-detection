@@ -161,6 +161,36 @@ Current image plot index starts from: 56 / 300
 
 ![my_plot_images](./resources/plot_tmp.png)
 
+```
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+img_path = "face_mask/dataset/Train/Mask/0003.jpg"
+datagen = ImageDataGenerator(rotation_range=40)
+
+img = load_img(img_path, target_size=(150, 150))
+img_tensor = img_to_array(img)
+dim_added_img = np.expand_dims(img_tensor, axis=0)
+
+pic = datagen.flow(dim_added_img)
+plt.figure(figsize=(10, 8))
+
+for i in range(3):
+    ax = plt.subplot(1, 3, i+1)
+    ax.axis('Off')
+    batch = pic.next()
+    image = batch[0].astype('uint8')
+    plt.imshow(image)
+    
+plt.show()
+```
+
+![my_plot_images](./resources/img_aug_show_rotation.png)
+
 ### My Process
 
 ```
