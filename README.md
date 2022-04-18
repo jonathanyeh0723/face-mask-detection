@@ -593,3 +593,31 @@ class Block(tf.keras.models.Model):
         
         return x
  ```
+
+```
+class VGGNet(tf.keras.models.Model):
+    
+    def __init__(self, num_classes):
+        super(VGGNet, self).__init__()
+        self.block_a = Block(64, 3, 2)
+        self.block_b = Block(128, 3, 2)
+        self.block_c = Block(256, 3, 3)
+        self.block_d = Block(512, 3, 3)
+        self.block_e = Block(512, 3, 3)
+        
+        self.flatten = tf.keras.layers.Flatten()
+        self.fc = tf.keras.layers.Dense(256, activation='relu')
+        self.classifier = tf.keras.layers.Dense(num_classes, activation='softmax')
+        
+    def call(self, x):
+        x = self.block_a(x)
+        x = self.block_b(x)
+        x = self.block_c(x)
+        x = self.block_d(x)
+        x = self.block_e(x)
+        x = self.flatten(x)
+        x = self.fc(x)
+        x = self.classifier(x)
+        
+        return x
+```
