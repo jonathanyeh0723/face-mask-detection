@@ -583,7 +583,8 @@ class Block(tf.keras.models.Model):
         
     def call(self, inputs):
         
-        x = inputs
+        conv2D_0 = inputs
+        x = conv2D_0
         
         for i in range(1, self.repetitions):
             conv2D_agg = vars(self)[f'conv2D_{i}']
