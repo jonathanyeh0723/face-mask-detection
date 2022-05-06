@@ -626,3 +626,86 @@ class VGGNet(tf.keras.models.Model):
         
         return x
 ```
+
+### My Custom Callback
+
+```
+class MyCustomCallback(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        if logs.get("accuracy") >= 0.95 and logs.get("val_accuracy") >= 0.95:
+            print("Reached 95% training and validation accuracy, so stop training!")
+            self.model.stop_training = True
+            
+callback = MyCustomCallback()
+```
+
+```
+class MyNetwork(tf.keras.models.Model):
+    
+    def __init__(self, num_classes, act):
+        super(MyNetwork, self).__init__()
+        self.block_a = Block(64, 3, 2)
+        self.block_b = Block(128, 3, 2)
+        self.block_c = Block(256, 3, 3)
+        self.block_d = Block(512, 3, 3)
+        self.block_e = Block(512, 3, 3)
+        
+        self.flatten = tf.keras.layers.Flatten()
+        self.fc = tf.keras.layers.Dense(256, activation='relu')
+        self.classifier = tf.keras.layers.Dense(num_classes, activation=act)
+        
+    def call(self, inputs):
+        x = inputs
+        x = self.block_a(x)
+        x = self.block_b(x)
+        x = self.block_c(x)
+        x = self.block_d(x)
+        x = self.block_e(x)
+        
+        x = self.flatten(x)
+        x = self.fc(x)
+        x = self.classifier(x)
+        
+        return x
+```
+
+```
+model = MyNetwork(1, 'sigmoid')
+```
+
+```
+Epoch 1/100
+ 76/255 [=======>......................] - ETA: 10:45 - loss: 0.5696 - accuracy: 0.6849
+C:\Users\Jonathan\anaconda3\lib\site-packages\PIL\Image.py:960: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+255/255 [==============================] - 966s 4s/step - loss: 0.3982 - accuracy: 0.8142 - val_loss: 0.3218 - val_accuracy: 0.8464
+Epoch 2/100
+255/255 [==============================] - 944s 4s/step - loss: 0.2333 - accuracy: 0.9123 - val_loss: 0.2621 - val_accuracy: 0.8922
+Epoch 3/100
+255/255 [==============================] - 973s 4s/step - loss: 0.2239 - accuracy: 0.9162 - val_loss: 0.1872 - val_accuracy: 0.9248
+Epoch 4/100
+255/255 [==============================] - 939s 4s/step - loss: 0.2093 - accuracy: 0.9226 - val_loss: 0.2044 - val_accuracy: 0.9281
+Epoch 5/100
+255/255 [==============================] - 931s 4s/step - loss: 0.1896 - accuracy: 0.9253 - val_loss: 0.1965 - val_accuracy: 0.9281
+Epoch 6/100
+255/255 [==============================] - 927s 4s/step - loss: 0.1683 - accuracy: 0.9389 - val_loss: 0.1542 - val_accuracy: 0.9510
+Epoch 7/100
+255/255 [==============================] - 928s 4s/step - loss: 0.1611 - accuracy: 0.9409 - val_loss: 0.1662 - val_accuracy: 0.9608
+Epoch 8/100
+255/255 [==============================] - 937s 4s/step - loss: 0.1573 - accuracy: 0.9427 - val_loss: 0.2166 - val_accuracy: 0.9444
+Epoch 9/100
+255/255 [==============================] - 958s 4s/step - loss: 0.1498 - accuracy: 0.9457 - val_loss: 0.1681 - val_accuracy: 0.9412
+Epoch 10/100
+255/255 [==============================] - 945s 4s/step - loss: 0.1410 - accuracy: 0.9495 - val_loss: 0.1565 - val_accuracy: 0.9510
+Epoch 11/100
+255/255 [==============================] - 958s 4s/step - loss: 0.1276 - accuracy: 0.9536 - val_loss: 0.1418 - val_accuracy: 0.9412
+Epoch 12/100
+255/255 [==============================] - 941s 4s/step - loss: 0.1341 - accuracy: 0.9495 - val_loss: 0.1842 - val_accuracy: 0.9510
+Epoch 13/100
+255/255 [==============================] - 940s 4s/step - loss: 0.1227 - accuracy: 0.9569 - val_loss: 0.1838 - val_accuracy: 0.9379
+Epoch 14/100
+255/255 [==============================] - 943s 4s/step - loss: 0.1266 - accuracy: 0.9556 - val_loss: 0.1919 - val_accuracy: 0.9477
+Epoch 15/100
+255/255 [==============================] - ETA: 0s - loss: 0.1014 - accuracy: 0.9627Reached 95% training and validation accuracy, so stop training!
+255/255 [==============================] - 972s 4s/step - loss: 0.1014 - accuracy: 0.9627 - val_loss: 0.1532 - val_accuracy: 0.9510
+```
